@@ -27,21 +27,23 @@ export default class CharacterController extends BaseController {
 
       await axios(config)
         .then(response => {
-          characters = [...characters,...response.data.results]
+          characters = [...characters, ...response.data.results]
         })
         .catch(error => {
           console.log(error);
         });
-    
-    page++
 
-  }
+      page++
 
-  const toReturn = characters.filter((character) => character.id <= req.params.N)
+    }
 
- // const returnFiltered = toReturn.forEach((character)=> { character.name, character.status} =>  })
+    const charsToReturn = characters.filter((character) => character.id <= req.params.N)
 
-  return super.Success(res, toReturn)
+    const reducedChars = []
+
+    charsToReturn.forEach((character) => reducedChars.push({ name: character.name, status: character.status, species: character.species, origin: character.origin.name }))
+  
+    return super.Success(res, reducedChars)
 
   }
 
