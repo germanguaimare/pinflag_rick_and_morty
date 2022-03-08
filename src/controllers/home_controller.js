@@ -1,4 +1,4 @@
-import BaseController from './base'
+import BaseController from './base.js'
 
 export default class HomeController extends BaseController {
   HomeController () {}
