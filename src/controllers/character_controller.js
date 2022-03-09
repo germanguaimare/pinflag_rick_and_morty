@@ -7,13 +7,6 @@ export default class CharacterController extends BaseController {
 
   async index(req, res) {
 
-    /*if ( req.params.N > 20) {
-      console.log("Haré Fetch hasta la página " + Math.ceil(req.params.N/20))
-    }
-    else {
-      console.log("Sólo busco la página 1")
-    }*/
-
     var characters = []
     var page = 1
 
@@ -38,17 +31,24 @@ export default class CharacterController extends BaseController {
     }
 
     const charsToReturn = characters.filter((character) => character.id <= req.params.N)
-
     const reducedChars = []
-
     charsToReturn.forEach((character) => reducedChars.push({ name: character.name, status: character.status, species: character.species, origin: character.origin.name }))
-  
     return super.Success(res, reducedChars)
 
   }
 
   async create(req, res) {
-    return super.Success(res, '')
+    const Character = models.Character
+    const body = req.body
+    const newChar = {
+      name: body.name,
+      status: body.status,
+      species: body.species,
+      origin: body.origin
+      }
+    Character.create(newChar)
+    console.log(body)
+    return super.Success(res, "Post al endpoint de creación")
   }
 
   async show(req, res) {
