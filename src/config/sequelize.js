@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize'
-import pg from 'pg'
+import * as pg from 'pg'
 
 const DATABASE_URI = process.env.DATABASE_URI || ''
 const DATABASE_LOG = !process.env.DATABASE_LOG ? false : (process.env.DATABASE_LOG === 'true')
@@ -36,5 +36,6 @@ export const testDatabase = async () => {
     console.log('Unable to connect to the database:', error)
   }
 }
+
 
 export default instanceSequelize

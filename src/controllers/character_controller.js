@@ -1,4 +1,6 @@
 import models from '../models/index.js'
+import Sequelize from "sequelize"
+import { sequelize, Op } from "../models/index.js"
 import axios from "axios"
 import BaseController from './base.js'
 
@@ -37,18 +39,28 @@ export default class CharacterController extends BaseController {
 
   }
 
-  async create(req, res) {
+
+  create(req, res) {
+    //const connection = new Sequelize("pinflag_challenge", "postgres", "docker", { dialect: "postgres" })
     const Character = models.Character
     const body = req.body
-    const newChar = {
-      name: body.name,
-      status: body.status,
-      species: body.species,
-      origin: body.origin
-      }
-    Character.create(newChar)
     console.log(body)
-    return super.Success(res, "Post al endpoint de creación")
+    connection.sync({force: true}).then(() => {
+      console.log(body)
+      Character.create({
+        name: body.name,
+        status: body.status,
+        species: body.species,
+        origin: body.origin
+      })
+    })
+
+
+    /*;
+    console.log(newChar.name);
+    console.log(newChar.toJSON())*/
+
+    return super.Success(res, "Intentaste crear el personaje ", body)
   }
 
   async show(req, res) {
